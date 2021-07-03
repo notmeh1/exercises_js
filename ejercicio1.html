@@ -47,24 +47,51 @@
         </div>
     </div>
     <script>
-        const inputName = document.getElementById("nombre")
-        const inputAbout = document.getElementById("asunto")
-        const inputMessage = document.getElementById("mensaje")
-        const errorName = document.getElementById("errorNombre")
-        const errorAbout = document.getElementById("errorAsunto")
-        const errorMessage = document.getElementById("errorMensaje")
-        const successValidation = document.getElementById("resultado")
-        const regValidation = false
-        let reg = /(A-Z)\w+/g
-
-        function textValidation(event) {
+        let form = document.getElementById("formulario")
+        form.addEventListener("submit", function(event){
             event.preventDefault()
-            if(regXr.test(inputName)) {
-                regValidation = true
-                alert(regValidation)
-            } else {
-                alert("No Funka")
+            cleanError()
+            let inputName = document.getElementById("nombre").value
+            let inputAsunto = document.getElementById("asunto").value
+            let inputMensaje = document.getElementById("mensaje").value
+            let result = textValidation(inputName, inputAsunto, inputMensaje)
+
+            if (result == true) {
+                textSuccess()
             }
+        })
+
+        function cleanError() {
+            document.querySelector(".resultado").innerHTML = ""
+            document.querySelector(".errorNombre").innerHTML = ""
+            document.querySelector(".errorAsunto").innerHTML = ""
+            document.querySelector(".errorMensaje").innerHTML = ""
+        }
+
+        function textSuccess() {
+            document.querySelector(".resultado").innerHTML = "El formulario está correcto"
+        }
+
+        function textValidation(inputName, inputAsunto, inputMensaje) {
+            let validationSuccess = true
+            let validationReg = /[a-zA-Z]/g
+
+            if (validationReg.test(inputName) == false) {
+                document.querySelector(".errorNombre").innerHTML = "Ingrese un nombre válido"
+                validationSuccess = false
+            }
+
+            if (validationReg.test(inputAsunto) == false) {
+                document.querySelector(".errorAsunto").innerHTML = "Ingrese un asunto válido"
+                validationSuccess = false
+            }
+
+            if (validationReg.test(inputMensaje) == false) {
+                document.querySelector(".errorMensaje").innerHTML = "Ingrese un mensaje válido"
+                validationSuccess = false
+            }
+
+            return validationSuccess;
         }
     </script>
 </body>
